@@ -1,0 +1,297 @@
+﻿<GameMode xmlns="Schema.xsd" version="7.0" name="MG02" id="2">
+
+	<!-- Game rules and structure -->
+
+	<!-- 4J-JEV: 
+		These govern the options presented to the host. The default value must be one of those present in the list. 
+		This is a little fiddly to enable configurable host option's that are exposed to players and I think you 
+		might find it easier to edit the refererer directly (where there is one) for test purposes. -->
+	<HostOptions version="2">
+		<!-- 4J-JEV: Incrementing version number resets all options to default values. -->
+
+
+		<!-- ORDER OF MATCHMAKING FILTERS IS IMPORTANT -->
+		<!-- Game length (default values count from 1) -->
+		<MatchmakingFilter default="0">
+			<Variant>
+				<RoundLength value="-1"/>
+			</Variant>
+		</MatchmakingFilter>
+
+		<!-- Other variants (default values count from 1) -->
+		<MatchmakingFilter default="3">
+			<Variant>
+				<NoSmallSkins value="0"/>
+        <!-- <AvailableLootSets value="Spade"/> -->
+			</Variant>
+			<Variant>
+				<NoSmallSkins value="0"/>
+        <!-- <AvailableLootSets value="Snowball"/>-->
+			</Variant>
+			<Variant>
+				<NoSmallSkins value="0"/>
+        <!-- <AvailableLootSets value="Spade,Snowball"/>-->
+			</Variant>
+			<Variant>
+				<NoSmallSkins value="0"/>
+        <!-- <AvailableLootSets value=""/> -->
+			</Variant>
+		</MatchmakingFilter>
+
+		<!-- Max Players (default values count from 1) -->
+		<MatchmakingFilter default="1">
+			<Variant>
+				<MaxPlayers value="8"/>
+			</Variant>
+		</MatchmakingFilter>
+		
+		<RoundLength default="-1">-1</RoundLength>
+
+		<NoSmallSkins default="0"/>
+		
+		<PointsActive default="0"/>
+
+		<!-- See: SpectateMode -->
+		<SpectateMode default="1">0 1 2 3 4</SpectateMode>
+
+		<CentreSpawn default="1"/>
+
+		<MaxPlayers default="8">8</MaxPlayers>
+		
+		<!-- If you add any more, then add defaults to the filters above -->
+
+	</HostOptions>
+
+	<StartConditions>
+		<Conjunction>
+			<PlayersCondition op="GreaterThanOrEquals" value="2" activeOnly="false" readyOnly="true"/>
+		</Conjunction>
+	</StartConditions>
+
+	<EndConditions>
+		<Disjunction>
+			<RoundTimeCondition value="300"/>
+			<PlayersCondition op="LessThanOrEquals" value="1" activeOnly="true" readyOnly="false"/>
+		</Disjunction>
+	</EndConditions>
+
+	<ShowdownConditions>
+		<Disjunction>
+			<RoundTimeCondition value="300" offset="-150"/>
+		</Disjunction>
+	</ShowdownConditions>
+
+	<LockedInventory>true</LockedInventory>
+	
+	<!-- 4J IME: No need for regen in Tumble or Glide, 4J-JEV, moved this to the xml -->
+	<NaturalRegeneration>false</NaturalRegeneration>
+	
+	<AllowPvP>false</AllowPvP>
+	
+	<DifficultyOverride>Hard</DifficultyOverride>
+	
+	<!-- Adventure prohibits block breaking -->
+	<PlayerGameType>Survival</PlayerGameType>
+	
+	<PlayerAbilities>
+		<Instabuild>true</Instabuild>
+		<Invulnerable>true</Invulnerable>
+	</PlayerAbilities>
+
+	<LivesPerRound>1</LivesPerRound>
+
+	<TeamCount>16</TeamCount>
+	<TeamBasedSpawn>false</TeamBasedSpawn>
+	<TeamMaxSize>2</TeamMaxSize>
+
+	<MaxPlayersForSmallMaps>6</MaxPlayersForSmallMaps>
+
+	<SpectateMode>$SpectateMode</SpectateMode>
+
+	<ShowInvulnerableEffect>false</ShowInvulnerableEffect>
+	<IndicatorDelay>1.0</IndicatorDelay>
+
+	<CanTntDestroyBlocks>true</CanTntDestroyBlocks>
+	
+	<!-- Restrict placing and destroying blocks entirely. -->
+	<DestroyPermissions mode="WhiteList" />
+
+	<PlacePermissions mode="WhiteList">
+		<!-- Allow placing TNT -->
+		<Exception id="46"/>
+	</PlacePermissions>
+
+	<!-- Use permission restrictions to stop players using hoes and Skulls -->
+	<UsePermissions mode="BlackList">
+		<Exception id="290" />
+		<Exception id="291" />
+		<Exception id="292" />
+		<Exception id="293" />
+		<Exception id="294" />
+		<Exception id="397" />
+
+		<!-- Shovels -->
+		<Exception id="256" />
+		<Exception id="269" />
+		<Exception id="273" />
+		<Exception id="277" />
+		<Exception id="284" />
+	</UsePermissions>
+
+	<!-- Added a BlockUseMode to seperate the restriction on using blocks in the mini game -->
+	<BlockUsePermissions mode="WhiteList">
+		<!-- Oak Door -->
+		<Exception id="64"/>
+		<!-- Iron Door -->
+		<Exception id="71" />
+		<!-- Spruce Door -->
+		<Exception id="193" />
+		<!-- Birch Door -->
+		<Exception id="194" />
+		<!-- Jungle Door -->
+		<Exception id="195" />
+		<!-- Acacia Door -->
+		<Exception id="196" />
+		<!-- Dark Oak Door -->
+		<Exception id="197" />
+
+		<!-- Iron TrapDoor -->
+		<Exception id="167" />
+		<!-- Wooden TrapDoor -->
+		<Exception id="96" />
+
+		<!-- Stone Button -->
+		<Exception id="77" />
+		<!-- Woodean Button -->
+		<Exception id="143" />
+
+		<!-- Lever -->
+		<Exception id="69" />
+
+		<!-- Chest -->
+		<Exception id="54" />
+		<!-- Ender chest -->
+		<Exception id="130" />
+		<!-- Trapped Chest -->
+		<Exception id="146" />
+	</BlockUsePermissions>
+
+	<BlockTicking override="true">
+		<Exception id="2">false</Exception> <!-- grass -->
+		<Exception id="6">false</Exception> <!-- oak sapling -->
+		<Exception id="10">false</Exception> <!--	flowing lava -->
+		<Exception id="11">false</Exception> <!--	lava -->
+		<Exception id="18">false</Exception> <!--	leaves -->
+		<Exception id="31">false</Exception> <!--	tall grass -->
+		<Exception id="32">false</Exception> <!--	dead bush -->
+		<Exception id="37">false</Exception> <!--	yellow flower -->
+		<Exception id="38">false</Exception> <!--	red flower -->
+		<Exception id="39">false</Exception> <!-- Brown Mushroom -->
+		<Exception id="40">false</Exception> <!-- Red Mushroom -->    
+		<Exception id="59">false</Exception> <!--	wheat -->
+		<Exception id="60">false</Exception> <!--	farmland -->
+		<Exception id="81">false</Exception> <!--	cactus -->
+		<Exception id="111">false</Exception> <!-- water lily -->
+		<Exception id="115">false</Exception> <!-- nether wart -->
+		<Exception id="141">false</Exception> <!-- carrots -->
+		<Exception id="161">false</Exception> <!-- leaves 2 -->
+		<Exception id="175">false</Exception> <!-- double plant" -->
+    <Exception id="79">false</Exception> <!-- Ice -->
+	</BlockTicking>
+
+	<Timers>
+		<!-- Measured in seconds. -->
+
+		<!-- Time spent preparing before we start checking if the start conditions are satisfied. -->
+		<RoundPreparing duration="5"/>
+
+		<!-- Start conditions satisfied, warning countdown before players are set loose. -->
+		<RoundStartDelay duration="5" announceEvery="1"/>
+
+		<!-- Timer that ends the grace period and makes the players mortal. -->
+		<GracePeriod duration="0"/>
+
+		<!-- Triggered by the EndConditions being satified, and when finished starts respawns the players in the lobby. -->
+		<RoundEndDelay duration="9" announceEvery="1"/>
+
+		<!-- Triggered on round start: timer force ends the game. -->
+		<RoundLimit changeAnnounceWhenRemaining="60" changedAnnounce="1"/>
+
+		<!-- Old Showdown timer -->
+		<Showdown announceEvery="1"/>
+
+	</Timers>
+
+	<!-- Sound specs -->
+	<!-- For each named sound you can specify volume (float, default 1.0) and forLast (how many timer ticks the sound plays for, defaults to int max, only works for timers) -->
+	<Sounds>
+		<OnShowdown volume="1.0"/>
+		<OnRoundStart/>
+		<OnRoundPlay volume="0.5"/>
+		<OnRoundEnding volume="0.5"/>
+		<OnDeath/>
+		<OnFalling/>
+		<RoundStartTimer forLast="5"/>
+		<GraceTimer forLast="3"/>
+		<RoundLimitTimer forLast="30"/>
+	</Sounds>
+
+	<ItemBalance>
+	 
+		<Item id="438">
+			<!-- Adjust potion range -->
+			<BaseDamage>1.5</BaseDamage>
+		</Item>
+
+    <Item id="441">
+      <!-- Adjust potion range -->
+      <BaseDamage>1.5</BaseDamage>
+    </Item>
+
+	</ItemBalance>
+
+	<LootSets>
+		<LootSet name="Spade" maxLayerCount="1">
+			<LootGroup name="PlayerInventory" kpScore="1" distributionMethod="Fixed">
+				<Kit weight="150" kpScore="1">
+					<Item id="256">
+						<Enchantment id="32" level="5" override="true"/>
+					</Item>
+				</Kit>
+			</LootGroup>
+		</LootSet>
+
+		<LootSet name="Snowball" maxLayerCount="3">
+			<LootGroup name="PlayerInventory" kpScore="1" distributionMethod="Fixed">
+				<Kit weight="150" kpScore="1">
+					<Item id="332" count="1"/>
+				</Kit>
+			</LootGroup>
+		</LootSet>
+
+		<LootSet name="Fireworks" maxLayerCount="3">
+			<LootGroup name="PlayerInventory" kpScore="1" distributionMethod="Fixed">
+				<Kit weight="42" kpScore="1">
+					<Item id="401" count="1">
+						<!-- Small yellow ball -->
+						<FireworkData DyeColorAux="11" Type="0" />           
+					</Item>
+				</Kit>
+			</LootGroup>
+		</LootSet>
+
+		<LootSet name="LevitatePotions" maxLayerCount="3">
+			<LootGroup name="PlayerInventory" kpScore="1" distributionMethod="Fixed">
+        <Equipment>
+					<Item id="438" slot="0">
+						<PotionDuration effectId= "0">0</PotionDuration>
+            					<CustomMobEffect Name="Levi" Id="25" Amplifier ="3" Duration="75" Ambient="false"/>
+					</Item>
+				</Equipment>
+			</LootGroup>
+		</LootSet>
+		
+	</LootSets>
+
+
+</GameMode>

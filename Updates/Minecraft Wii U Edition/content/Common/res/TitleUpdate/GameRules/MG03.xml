@@ -1,0 +1,179 @@
+﻿<GameMode xmlns="Schema.xsd" version="7.0" name="MG03" id="3">
+
+	<!-- Game rules and structure -->
+
+	<!-- 4J-JEV: 
+		These govern the options presented to the host. The default value must be one of those present in the list. 
+		This is a little fiddly to enable configurable host option's that are exposed to players and I think you 
+		might find it easier to edit the refererer directly (where there is one) for test purposes. -->
+	<HostOptions version="3">
+		<!-- 4J-JEV: Incrementing version number resets all options to default values. -->
+
+		<!-- ORDER OF MATCHMAKING FILTERS IS IMPORTANT -->
+		<!-- Game length (default values count from 1) -->
+		<MatchmakingFilter default="1">
+			<!-- IRRELEVANT -->
+			<Variant>
+				<RoundLength value="180"/>
+			</Variant>
+		</MatchmakingFilter>
+
+		<!-- Other variants (default values count from 1) -->
+		<MatchmakingFilter default="1">
+			<Variant>
+				<PointsActive value="0"/>
+			</Variant>
+
+			<Variant>
+				<PointsActive value="1"/>
+			</Variant>
+		</MatchmakingFilter>
+
+	<!-- Max Players (default values count from 1) -->
+	<MatchmakingFilter default="2">
+		<Variant>
+			<MaxPlayers value="8"/>
+		</Variant>
+		<Variant>
+			<MaxPlayers value="16"/>
+		</Variant>
+	</MatchmakingFilter>
+	
+		<!-- Irrelevant -->
+		<RoundLength default="180">180</RoundLength>
+
+		<NoSmallSkins default="0"/>
+
+		<PointsActive default="0">0 1</PointsActive>
+
+		<!-- See: SpectateMode -->
+		<SpectateMode default="0">0</SpectateMode>
+
+		<CentreSpawn default="1"/>
+
+		<MaxPlayers default="16">8 16</MaxPlayers>
+
+		<!--<AvailableLootSets default="Normal"/>-->
+
+		<!-- If you add any more, then add defaults to the filters above -->
+
+	</HostOptions>
+
+	<StartConditions>
+		<Conjunction>
+
+			<PlayersCondition op="GreaterThanOrEquals" value="2" activeOnly="false" readyOnly="true"/>
+
+		</Conjunction>
+	</StartConditions>
+
+	<EndConditions>
+		<Disjunction>
+
+			<!-- Because of useRatio=true and value=1 this will end the game if all players are in the target area-->
+			<PlayersEnteredVolumeCondition op="GreaterThanOrEquals" value="1" useTargetAreas="true" useRatio="true"/>
+
+			<!--Note that this showdown time is reduced by 60 seconds every time another player crosses the finish line, to a minimum of 30 seconds remaining-->
+			<ShowdownTimeCondition value="180" />
+			<!-- in seconds -->
+
+		</Disjunction>
+	</EndConditions>
+
+	<ShowdownConditions>
+		<Disjunction>
+
+			<PlayersEnteredVolumeCondition op="GreaterThanOrEquals" value="1" useTargetAreas="true" useRatio="false"/>
+
+			<RoundTimeCondition value="1500" /> <!-- in seconds -->
+
+		</Disjunction>
+	</ShowdownConditions>
+
+	<LockedInventory>true</LockedInventory>
+
+	<!-- 4J IME: No need for regen in Tumble or Glide, 4J-JEV, moved this to the xml -->
+	<NaturalRegeneration>false</NaturalRegeneration>
+
+	<AllowPvP>false</AllowPvP>
+	<LoadOnlyActiveAreaChunks>true</LoadOnlyActiveAreaChunks>
+
+	<DifficultyOverride>Hard</DifficultyOverride>
+	<PlayerGameType>Adventure</PlayerGameType>
+
+	<LivesPerRound>0</LivesPerRound> <!-- 0 means infinite -->
+	<RoundCount>3</RoundCount>
+
+	<TeamCount>16</TeamCount>
+	<TeamBasedSpawn>false</TeamBasedSpawn>
+	<TeamMaxSize>2</TeamMaxSize>
+
+	<CheckpointBasedSpawn>true</CheckpointBasedSpawn>
+
+	<MaxPlayersForSmallMaps>6</MaxPlayersForSmallMaps>
+
+	<SpectateMode>$SpectateMode</SpectateMode>
+
+	<ShowInvulnerableEffect>false</ShowInvulnerableEffect>
+	<IndicatorDelay>1.0</IndicatorDelay>
+
+	<!-- Restrict placing and destroying blocks entirely. -->
+	<DestroyPermissions mode="WhiteList"/>
+	<PlacePermissions mode="WhiteList"/>
+	<UsePermissions mode="WhiteList"/>
+	<BlockUsePermissions mode="WhiteList"/>
+
+	<BlockTicking override="false"/>
+
+	<Timers>
+		<!-- Measured in seconds. -->
+
+		<!-- Time spent preparing before we start checking if the start conditions are satisfied. -->
+		<RoundPreparing duration="5"/>
+
+		<!-- Start conditions satisfied, warning countdown before players are set loose. -->
+		<RoundStartDelay duration="15" announceEvery="1"/>
+
+		<!-- Timer that ends the grace period and makes the players mortal. -->
+		<GracePeriod duration="0" announceEvery="1"/>
+
+		<!-- Triggered by the EndConditions being satified, and when finished starts respawns the players in the lobby. -->
+		<RoundEndDelay duration="10" announceEvery="1"/>
+
+		<!-- Triggered on round start: timer force ends the game. -->
+		<RoundLimit changeAnnounceWhenRemaining="60" changedAnnounce="1"/>
+
+		<!-- Old Showdown timer -->
+		<Showdown announceEvery="1"/>
+
+		<!--Note that this showdown time is reduced by 60 seconds every time another player crosses the finish line, to a minimum of 30 seconds remaining-->
+		<TimeToReachEnd duration="180" announceEvery="1"/>
+
+	</Timers>
+
+	<!-- Sound specs -->
+	<!-- For each named sound you can specify volume (float, default 1.0) and forLast (how many timer ticks the sound plays for, defaults to int max, only works for timers) -->
+	<Sounds>
+		<OnShowdown volume="1.0"/>
+		<OnRoundStart/>
+		<OnRoundPlay/>
+		<OnRoundEnding/>
+		<OnDeath/>
+		<RoundStartTimer forLast="5"/>
+		<GraceTimer forLast="3"/>
+		<RoundLimitTimer forLast="30"/>
+	</Sounds>
+
+	<LootSets>
+		<LootSet name="Normal">
+			<LootGroup name="PlayerInventory" kpScore="1" distributionMethod="Fixed">
+				<Kit weight="1" kpScore="1"/>
+				<Equipment>
+					<Item id="443" slot="4"/>
+					<Item id="0" slot="0"/>
+				</Equipment>
+			</LootGroup>
+		</LootSet>
+	</LootSets>
+
+</GameMode>
